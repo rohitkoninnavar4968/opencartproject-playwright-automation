@@ -2,7 +2,7 @@
 using Opencart_Automation_Project.Config;
 using Opencart_Automation_Project.Driver;
 
-namespace EaFramework.Driver;
+namespace Opencart_Automation_Project.Driver;
 
 public class PlaywrightDriver : IDisposable
 {

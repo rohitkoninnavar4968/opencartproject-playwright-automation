@@ -1,22 +1,27 @@
-
 using Opencart_Automation_Project.Driver;
 using Microsoft.Playwright;
 using Opencart_Automation_Project.Config;
 using Opencart_Automation_Project.Pages;
-using Xunit;
-using Assert = NUnit.Framework.Assert;
+using NUnit.Framework;
 
 namespace Opencart_Automation_Project.Tests;
 
-public class ProductSearchTests : IClassFixture<PlaywrightDriverInitializer>, IDisposable
+[TestFixture]
+public class ProductSearchTests
 {
-    private readonly PlaywrightDriverInitializer _initializer;
-    private readonly TestSettings _testsettings;
-    private readonly PlaywrightDriver _playwrightDriver;
+    private PlaywrightDriverInitializer _initializer;
+    private TestSettings _testsettings;
+    private PlaywrightDriver _playwrightDriver;
 
-    public ProductSearchTests(PlaywrightDriverInitializer initializer)
+    [OneTimeSetUp]
+    public void OneTimeSetUp()
     {
-        _initializer = initializer;
+        _initializer = new PlaywrightDriverInitializer();
+    }
+
+    [SetUp]
+    public void SetUp()
+    {
         _testsettings = ConfigReader.ReadConfig();
         _playwrightDriver = new PlaywrightDriver(_testsettings, _initializer);
     }
@@ -29,7 +34,7 @@ public class ProductSearchTests : IClassFixture<PlaywrightDriverInitializer>, ID
         return page;
     }
 
-    [Fact(DisplayName = "Search should return results for known product")]
+    [Test(Description = "Search should return results for known product")]
     public async Task Search_ReturnsResults_ForKnownProduct()
     {
         var page = await OpenHomeAsync();
@@ -38,13 +43,13 @@ public class ProductSearchTests : IClassFixture<PlaywrightDriverInitializer>, ID
         await search.SearchAsync(_testsettings.ProductName);
 
         var count = await search.GetResultsCountAsync();
-        Assert.That(count > 0);
+        Assert.That(count, Is.GreaterThan(0));
 
         var product = search.ProductLocator(_testsettings.ProductName);
         await Assertions.Expect(product).ToBeVisibleAsync();
     }
 
-    [Fact(DisplayName = "Category navigation should show products in category")]
+    [Test(Description = "Category navigation should show products in category")]
     public async Task CategoryNavigation_ShowsProduct()
     {
         var page = await OpenHomeAsync();
@@ -56,7 +61,7 @@ public class ProductSearchTests : IClassFixture<PlaywrightDriverInitializer>, ID
         await Assertions.Expect(product).ToBeVisibleAsync();
     }
 
-    [Fact(DisplayName = "Search and open product details should show title and price")]
+    [Test(Description = "Search and open product details should show title and price")]
     public async Task Search_OpenProductDetails_VerifyTitleAndPrice()
     {
         var page = await OpenHomeAsync();
@@ -68,14 +73,17 @@ public class ProductSearchTests : IClassFixture<PlaywrightDriverInitializer>, ID
         await search.OpenProductDetailsAsync(_testsettings.ProductName);
 
         var title = await details.GetTitleAsync();
-        Assert.That(title.Contains("iPhone", StringComparison.OrdinalIgnoreCase));
+        Assert.That(title, Does.Contain("iPhone").IgnoreCase);
 
         var price = await details.GetPriceAsync();
-        Assert.That(!string.IsNullOrWhiteSpace(price));
+        Assert.That(price, Is.Not.Null.And.Not.Empty);
     }
 
-    public void Dispose()
+    [TearDown]
+    public async Task TearDown()
     {
         _playwrightDriver.Dispose();
     }
+
+    
 }

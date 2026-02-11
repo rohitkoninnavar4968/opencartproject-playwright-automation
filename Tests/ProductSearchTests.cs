@@ -4,6 +4,7 @@ using Microsoft.Playwright;
 using Opencart_Automation_Project.Config;
 using Opencart_Automation_Project.Pages;
 using Xunit;
+using Assert = NUnit.Framework.Assert;
 
 namespace Opencart_Automation_Project.Tests;
 

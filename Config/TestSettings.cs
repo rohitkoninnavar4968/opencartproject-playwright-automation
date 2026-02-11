@@ -1,6 +1,6 @@
 ﻿using EaFramework.Driver;
 
-namespace EaFramework.Config;
+namespace Opencart_Automation_Project.Config;
 
 public class TestSettings
 {

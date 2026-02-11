@@ -1,7 +1,7 @@
-﻿using EaFramework.Config;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using Opencart_Automation_Project.Config;
 
-namespace EaFramework.Driver;
+namespace Opencart_Automation_Project.Driver;
 
 public class PlaywrightDriverInitializer : IPlaywrightDriverInitializer
 {

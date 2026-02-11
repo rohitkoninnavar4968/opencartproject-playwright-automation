@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace EaFramework.Config;
+namespace Opencart_Automation_Project.Config;
 
 public static class ConfigReader
 {

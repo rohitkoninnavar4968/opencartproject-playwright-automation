@@ -1,7 +1,7 @@
-//using EaApplicationTest.Pages;
-using EaFramework.Config;
-using EaFramework.Driver;
+
+using Opencart_Automation_Project.Driver;
 using Microsoft.Playwright;
+using Opencart_Automation_Project.Config;
 using Opencart_Automation_Project.Pages;
 using Xunit;
 
